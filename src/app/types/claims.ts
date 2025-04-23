@@ -7,3 +7,9 @@ export interface IClaim {
   payment_status: 'Pending' | 'Approved' | 'Denied';
   claim_date: string;
 }
+
+export type PaymentProbabilities = {
+  Pending: number;
+  Approved: number;
+  Denied: number;
+};

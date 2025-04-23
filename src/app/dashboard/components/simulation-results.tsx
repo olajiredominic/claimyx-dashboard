@@ -26,13 +26,13 @@ const SimulationResults: React.FC<{
   };
 
   return (
-    <div className="space-y-6">
-      <div className="bg-white p-4 rounded shadow text-center">
+    <div className="space-y-6 flex flex-col lg:flex-row gap-5 lg:gap-10  h-120 ">
+      <div className="bg-white p-4 rounded shadow text-center h-full w-full lg:w-1/2 flex flex-col items-center justify-center">
         <p className="text-gray-500 text-sm">Expected Revenue</p>
         <h2 className="text-3xl font-bold">{simulation.expectedRevenue.toLocaleString()} USD</h2>
       </div>
 
-      <div className="bg-white p-4 rounded shadow">
+      <div className="bg-white p-4 rounded shadow w-full lg:w-1/2">
         <h3 className="text-lg font-semibold mb-2">Revenue Distribution</h3>
         <Bar
           data={chartData}
