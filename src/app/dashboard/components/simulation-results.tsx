@@ -1,0 +1,59 @@
+'use client';
+
+import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, BarElement, CategoryScale, LinearScale } from 'chart.js';
+
+ChartJS.register(BarElement, CategoryScale, LinearScale);
+
+const SimulationResults: React.FC<{
+  simulation: {
+    expectedRevenue: number;
+    distribution: Record<number, number>; // revenue => frequency
+  };
+}> = ({ simulation }) => {
+
+  const chartData = {
+    labels: Object.keys(simulation.distribution).map(Number).sort((a, b) => a - b),
+    datasets: [
+      {
+        label: 'Iteration Count',
+        data: Object.entries(simulation.distribution)
+          .sort((a, b) => Number(a[0]) - Number(b[0]))
+          .map(([, count]) => count),
+        backgroundColor: '#3b82f6',
+      },
+    ],
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="bg-white p-4 rounded shadow text-center">
+        <p className="text-gray-500 text-sm">Expected Revenue</p>
+        <h2 className="text-3xl font-bold">{simulation.expectedRevenue.toLocaleString()} USD</h2>
+      </div>
+
+      <div className="bg-white p-4 rounded shadow">
+        <h3 className="text-lg font-semibold mb-2">Revenue Distribution</h3>
+        <Bar
+          data={chartData}
+          options={{
+            responsive: true,
+            plugins: {
+              legend: { display: false },
+            },
+            scales: {
+              x: {
+                title: { display: true, text: 'Revenue Range ($)' },
+              },
+              y: {
+                title: { display: true, text: 'Iteration Count' },
+              },
+            },
+          }}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default SimulationResults;
