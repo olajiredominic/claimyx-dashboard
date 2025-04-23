@@ -12,7 +12,7 @@ const Navbar = () => {
         <h1 className="text-xl font-semibold text-gray-800">Claimyx Health Claims</h1>
       </div>
       <div>
-        <Link href="/" className="text-sm text-gray-600 hover:text-black transition">
+        <Link href="/dashbaord" className="text-sm text-gray-600 hover:text-black transition">
           Dashboard
         </Link>
       </div>
