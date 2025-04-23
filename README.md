@@ -152,7 +152,3 @@ Simulation is optimized to avoid blocking the main thread (via `requestIdleCallb
 Happy to walk through my choices and expand on specific implementation details if needed.
 
 ```
-
----
-
-Let me know if you'd like this README generated directly in your file system or want to deploy it to Vercel with a custom domain.
