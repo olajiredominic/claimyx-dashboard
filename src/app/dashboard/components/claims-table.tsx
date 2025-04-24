@@ -119,21 +119,31 @@ const ClaimsTable = () => {
                     { key: 'insurance_provider', label: 'Insurance Provider' },
                     { key: 'payment_status', label: 'Payment Status' },
                     { key: 'claim_date', label: 'Claim Date' }
-                  ].map(({ key, label }) => (
-                    <TableHead
-                      key={key}
-                      className={`cursor-pointer hover:bg-muted font-semibold ${sortKey === key ? "bg-muted font-semibold" : ""}`} // Add font-semibold for active sort
-                      onClick={() => {
-                        // If clicking the same key, toggle direction, otherwise set key and default to 'asc'
-                        const newSortDir = (sortKey === key && sortDir === "asc") ? "desc" : "asc";
-                        setSortKey(key);
-                        setSortDir(newSortDir);
-                      }}
-                    >
-                      {label}
-                      {sortKey === key ? (sortDir === "asc" ? ' ▲' : ' ▼') : ''}
-                    </TableHead>
-                  ))}
+                  ].map(({ key, label }) => {
+                    const isActive = sortKey === key;
+                    const sortIcon = isActive ? (sortDir === 'asc' ? '▲' : '▼') : '↕';
+
+                    return (
+                      <TableHead
+                        key={key}
+                        className={`cursor-pointer hover:bg-muted font-semibold transition-colors duration-150 ${isActive ? 'bg-muted text-primary' : 'text-muted-foreground'
+                          }`}
+                        onClick={() => {
+                          const newSortDir = (sortKey === key && sortDir === 'asc') ? 'desc' : 'asc';
+                          setSortKey(key);
+                          setSortDir(newSortDir);
+                        }}
+                      >
+                        <span className="flex items-center gap-1">
+                          {label}
+                          <span className={`text-xs ${isActive ? 'text-primary' : 'text-muted-foreground'}`}>
+                            {sortIcon}
+                          </span>
+                        </span>
+                      </TableHead>
+                    );
+                  })}
+
                 </TableRow>
               </TableHeader>
               <TableBody>
