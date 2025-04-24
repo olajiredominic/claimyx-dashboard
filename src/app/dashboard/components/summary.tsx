@@ -30,9 +30,9 @@ const Summary = () => {
       {
         statusSummary.map(status => (
           <SummaryCard {...status} key={status.status} label={`${status.status} amount`} className={`
-            ${status.status === "Approved" && "from-green-400 to-teal-500 text-white bg-gradient-to-r"}
-            ${status.status === "Denied" && "from-red-400 to-rose-500 text-white bg-gradient-to-r"}
-            ${status.status === "Pending" && "from-yellow-400 to-orange-500 text-white bg-gradient-to-r"}
+            ${status.status === "Approved" && "!bg-white text-green-400 bg-gradient-to-r"}
+            ${status.status === "Denied" && "!bg-white text-rose-500 bg-gradient-to-r"}
+            ${status.status === "Pending" && "!bg-white text-yellow-400 bg-gradient-to-r"}
             `}
           />
         ))}
