@@ -143,7 +143,18 @@ const ClaimsTable = () => {
                       <TableCell>{claim.billing_code}</TableCell>
                       <TableCell>${typeof claim.amount === 'number' ? claim.amount.toFixed(2) : 'N/A'}</TableCell>
                       <TableCell>{claim.insurance_provider}</TableCell>
-                      <TableCell>{claim.payment_status}</TableCell>
+                      <TableCell>
+                        <span
+                          className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${claim.payment_status === 'Approved'
+                            ? 'bg-emerald-100 text-emerald-700'
+                            : claim.payment_status === 'Pending'
+                              ? 'bg-yellow-100 text-yellow-700'
+                              : 'bg-red-100 text-red-700'
+                            }`}
+                        >
+                          {claim.payment_status}
+                        </span>
+                      </TableCell>
                       <TableCell>{claim.claim_date}</TableCell>
                     </TableRow>
                   ))
