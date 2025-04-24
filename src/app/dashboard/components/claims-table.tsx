@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button'; // Import Button
 import React, { useMemo, useState, useEffect } from 'react'; // Import useEffect
 import { useDashboardStore } from '../store/useDashboardStore';
+import { formatCurrency } from '@/lib/utils';
 
 // Define how many items to show per page
 const ITEMS_PER_PAGE = 10;
@@ -141,7 +142,7 @@ const ClaimsTable = () => {
                     <TableRow key={claim.billing_code ?? i}>
                       <TableCell>{claim.patient_name}</TableCell>
                       <TableCell>{claim.billing_code}</TableCell>
-                      <TableCell>${typeof claim.amount === 'number' ? claim.amount.toFixed(2) : 'N/A'}</TableCell>
+                      <TableCell>{typeof claim.amount === 'number' ? formatCurrency(claim.amount, "USD") : 'N/A'}</TableCell>
                       <TableCell>{claim.insurance_provider}</TableCell>
                       <TableCell>
                         <span

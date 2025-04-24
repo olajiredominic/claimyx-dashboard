@@ -3,6 +3,7 @@
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, BarElement, CategoryScale, LinearScale } from 'chart.js';
 import { DashboardState } from '../store/useDashboardStore';
+import { formatCurrency } from '@/lib/utils';
 
 ChartJS.register(BarElement, CategoryScale, LinearScale);
 
@@ -28,15 +29,15 @@ const SimulationResults: React.FC<{
       <div className="bg-white p-4 rounded shadow text-center h-full w-full lg:w-1/2 flex lg:flex-row flex-col gap-10 items-center justify-center">
         <div>
           <p className="text-gray-500 text-sm">Min. Revenue</p>
-          <h2 className="text-2xl font-bold">{simulation.minRevenue.toLocaleString()}</h2>
+          <h2 className="text-2xl font-bold">{formatCurrency(simulation.minRevenue, "USD")}</h2>
         </div>
         <div>
           <p className="text-gray-500 text-md">Expected Revenue</p>
-          <h2 className="text-5xl font-bold">{simulation.expectedRevenue.toLocaleString()}</h2>
+          <h2 className="text-5xl font-bold">{formatCurrency(simulation.expectedRevenue, "USD")}</h2>
         </div>
         <div>
           <p className="text-gray-500 text-sm">Max. Revenue</p>
-          <h2 className="text-2xl font-bold">{simulation.maxRevenue.toLocaleString()}</h2>
+          <h2 className="text-2xl font-bold">{formatCurrency(simulation.maxRevenue, "USD")}</h2>
         </div>
       </div>
 
