@@ -3,6 +3,7 @@ import { create } from "zustand";
 
 export interface DashboardState {
   claims: IClaim[];
+  isRunningSimulation: boolean;
   simulation: {
     expectedRevenue: number;
     minRevenue: number;
@@ -33,6 +34,7 @@ export const useDashboardStore = create<DashboardState>((set, get) => ({
     maxRevenue: 0,
     distribution: {},
   },
+  isRunningSimulation: false,
   setClaims: (claims) => {
     set(() => ({
       claims
@@ -53,6 +55,7 @@ export const useDashboardStore = create<DashboardState>((set, get) => ({
   runSimulation: () => {
     const { probabilities, claims } = get();
     const worker = new Worker(new URL('../workers/simulationWorker.js', import.meta.url));
+    set({ isRunningSimulation: true })
     worker.postMessage({ probabilities, claims, iterations: 2000 });
 
     worker.onmessage = (e) => {
@@ -63,7 +66,8 @@ export const useDashboardStore = create<DashboardState>((set, get) => ({
           minRevenue: min,
           maxRevenue: max,
           distribution: dist,
-        }
+        },
+        isRunningSimulation: false
       });
       worker.terminate(); // Clean up
     };

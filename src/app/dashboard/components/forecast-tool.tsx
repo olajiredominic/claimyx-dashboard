@@ -6,7 +6,7 @@ import { useDashboardStore } from "../store/useDashboardStore";
 import SimulationResults from './simulation-results';
 
 const ForecastTool = () => {
-  const { probabilities, setProbability, simulation, runSimulation } = useDashboardStore();
+  const { probabilities, setProbability, simulation, runSimulation, isRunningSimulation } = useDashboardStore();
 
   useEffect(() => {
     runSimulation();
@@ -33,7 +33,7 @@ const ForecastTool = () => {
           </div>
         ))}
       </div>
-      <SimulationResults simulation={simulation} />
+      <SimulationResults simulation={simulation} isLoading={isRunningSimulation} />
 
     </div>
   );
