@@ -1,10 +1,12 @@
 import { IClaim, PaymentProbabilities } from "@/app/types/claims";
 import { create } from "zustand";
 
-interface DashboardState {
+export interface DashboardState {
   claims: IClaim[];
   simulation: {
     expectedRevenue: number;
+    minRevenue: number;
+    maxRevenue: number;
     distribution: Record<number, number>; // revenue => frequency
   };
   probabilities: {
@@ -27,6 +29,8 @@ export const useDashboardStore = create<DashboardState>((set, get) => ({
 
   simulation: {
     expectedRevenue: 0,
+    minRevenue: 0,
+    maxRevenue: 0,
     distribution: {},
   },
   setClaims: (claims) => {
@@ -48,7 +52,7 @@ export const useDashboardStore = create<DashboardState>((set, get) => ({
 
   runSimulation: () => {
     const { probabilities, claims } = get();
-    const iterations = 1000;
+    const iterations = 2000;
     const results: number[] = [];
 
     for (let i = 0; i < iterations; i++) {
@@ -72,10 +76,14 @@ export const useDashboardStore = create<DashboardState>((set, get) => ({
     });
 
     const avg = results.reduce((a, b) => a + b, 0) / results.length;
+    const max = results.length ? Math.max(...results) : 0;
+    const min = results.length ? Math.min(...results) : 0;
 
     set(() => ({
       simulation: {
         expectedRevenue: Math.round(avg),
+        minRevenue: min,
+        maxRevenue: max,
         distribution: dist,
       },
     }));
