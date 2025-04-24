@@ -52,41 +52,21 @@ export const useDashboardStore = create<DashboardState>((set, get) => ({
 
   runSimulation: () => {
     const { probabilities, claims } = get();
-    const iterations = 2000;
-    const results: number[] = [];
+    const worker = new Worker(new URL('../workers/simulationWorker.js', import.meta.url));
+    worker.postMessage({ probabilities, claims, iterations: 2000 });
 
-    for (let i = 0; i < iterations; i++) {
-      let revenue = 0;
-
-      for (const claim of claims) {
-        const chance = probabilities[claim.payment_status as keyof typeof probabilities];
-        if (Math.random() < chance) {
-          revenue += claim.amount;
+    worker.onmessage = (e) => {
+      const { avg, min, max, dist } = e.data
+      set({
+        simulation: {
+          expectedRevenue: Math.round(avg),
+          minRevenue: min,
+          maxRevenue: max,
+          distribution: dist,
         }
-      }
-
-      results.push(revenue);
-    }
-
-    // Generate histogram
-    const dist: Record<number, number> = {};
-    results.forEach((rev) => {
-      const bucket = Math.round(rev / 1000) * 1000;
-      dist[bucket] = (dist[bucket] || 0) + 1;
-    });
-
-    const avg = results.reduce((a, b) => a + b, 0) / results.length;
-    const max = results.length ? Math.max(...results) : 0;
-    const min = results.length ? Math.min(...results) : 0;
-
-    set(() => ({
-      simulation: {
-        expectedRevenue: Math.round(avg),
-        minRevenue: min,
-        maxRevenue: max,
-        distribution: dist,
-      },
-    }));
+      });
+      worker.terminate(); // Clean up
+    };
   }
 }));
 
